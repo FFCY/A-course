@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>学生详情</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    <link href="../css/scrollbar.css" rel="stylesheet">
+    
+    <body class="marginNone padBottom20 theBody">
+      <div class="teaHeader">
+       	<img src="../images/laobg.png" class="laoBg"/>
+       	<div class="teaTou">
+       		<img src="../images/jigGou.png" class="teaIcon"/>
+       		<span class="teaName" id="teaName"></span>
+       	</div>
+       	<ul class="teaJie">
+       		<li><img src="../images/laoLing.png/">
+       		<span id="jiaoLing"></span>
+       		</li>
+       		<li><img src="../images/laoTea.png">
+       		<span id="position"></span>
+       		</li>
+       	</ul>
+       </div>
+      <div class="mainContent actBlo padLeftRight">
+      
+       <ul class="keShiUl borBottom">
+       	<li>￥100000元/小时<span class="greyFont greyborSpan marLeft9">1对1</span></li>
+       	<li>￥100000元/小时<span class="greyFont greyborSpan marLeft9">1对1</span></li>
+       </ul>
+       <p class="title color2C size13 padTop20 marBottom10">老师简介</p>
+            <p class="size12 color999 hasBig">毕业学校：<span id="schole"></span></p>
+            <p class="size12 color999 hasBig posRelite">上课地址：<span class="width50P" id="adress"></span></p>
+            <div class="webkBlo marTop4" id="biaoQian">
+            	<span class="size12 color999">老师标签：</span>
+            	
+            </div>
+        <p class="color8d size13 padTop20 marBottom7">自我介绍</p>
+            <p class="size12 color999 selfCon" id="descript"></p>
+      </div>
+       <ul class="tabUl padLeftRight borBottom">
+      <li class="active">
+        <span>课程</span></li>
+      <li>
+        <span>相册</span></li>
+      <li>
+        <span>评价</span></li>
+    </ul>
+    <div class="tabBlock">
+      <div class="tabContent borBottom">
+        <div class="tabCon padLeftRight">
+          <p class="title color2C outLine">课程提纲</p>
+          <div id="MuluId">
+          	<!--目录-->
+          </div>
+        </div>
+        <div class="tabCon disNone">
+          <div class="padLeftRight padBottom20">
+          	<ul class="xiangUl">
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          		<li>
+          			<img src="../images/laoCe.png" />
+          		</li>
+          	</ul>
+        </div>
+        </div>
+        <div class="tabCon disNone padLeftRight">
+                    	<p class="title color2C size13 padTop20 marBottom10">
+           					<span class="greyFont size12">综合评分</span><span id="score"></span>
+                    	</p>
+                    	<div class="lunRelative">
+							<div id="wrapper">
+							<div id="scroller" >
+								<div id="pullDown" style="overflow: hidden;">
+									<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+								</div>
+								<div id="pingLun"></div>
+								<div id="pullUp" class="pullUp" style="overflow: hidden;">
+									<span class="pullUpIcon"></span><span class="pullUpLabel"></span>
+								</div>
+							</div>
+							</div>
+						</div>
+                   
+                </div>
+      </div>
+      <ul class="baoZhUl">
+      	<li>
+      		<img src="../images/liaoAn1.png" />
+      		资金安全
+      	</li>
+      	<li>
+      		<img src="../images/liaoAn2.png" />
+      		随时可退
+      	</li>
+      	<li>
+      		<img src="../images/liaoAn3.png" />
+      		真实评价
+      	</li>
+      	<li>
+      		<img src="../images/liaoAn4.png" />
+      		实名认证
+      	</li>
+      </ul>
+    </div>
+    <div class="liaoAnBlo"></div>
+      <script src="../js/zepto.min.js"></script>
+      
+        <script src="../js/iscroll.js"></script>
+		<script src="../js/iscroll4.2.5.js"></script>
+		<script src="../js/startScore.js"></script>
+        </script>
+      <script>!(function($) {
+        var g = {
+          init: function() {
+            var _t = this;
+            //调用tab
+            _t.tab();
+            /*老师详情*/
+           _t.teaDetail();
+           /*目录*/
+          _t.directory();
+          /*评价*/
+         _t.evaluation();
+         /*加载图片*/
+        _t.default();
+          },
+          //调用tab
+          tab: function() {
+            var _t = this;
+            $(".tabUl li").each(function(index, element) {
+              var i = index;
+              $(this).on('click',
+              function() {
+                $(".tabUl li").removeClass("active");
+                $(this).addClass("active");
+                $(".tabContent .tabCon").hide();
+                $(".tabContent .tabCon").eq(i).show();
+
+              });
+            });
+          },
+          /*老师详情*/
+         teaDetail:function(){
+         	var _t=this;
+        	 //通过链接获取id
+	            	var url=location.search; 
+								if(url.indexOf("?")!=-1) 
+								{
+									var name, value;
+								  var str = location.href; //获取到整个地址
+								  var num = str.indexOf("?")
+								  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+								  var arr = str.split("&"); //以&分割各个参数放到数组里
+								  for (var i = 0; i < arr.length; i++) {
+								  num = arr[i].indexOf("=");
+								 if (num > 0) {
+								name = arr[i].substring(0, num);
+								value = arr[i].substr(num + 1);
+								 this[name] = value;
+								 }
+								 var parm={"id":value}
+								}
+								  }
+								else{
+									var parm = {"id": 1};
+								} 
+									
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://118.89.150.168:8080/msg/271',
+                    data: parm,
+                    dataType: 'json',
+                    success: function(data) {
+                    	var data=data.d;
+                    	$("#teaName").html(data.realname);
+                    	$("#jiaoLing").html(data.teach_age);
+                    	$("#position").html(data.position);
+                    	$("#schole").html(data.university);
+                    	$("#adress").html(data.address);
+                    	if(data.specialty==null){
+                    		console.log("dsdd");
+                    	}else{
+		                    	var spanCon=data.specialty;
+		                    	var spanlist=spanCon.split("，");
+		                    	
+		                    	var spanHtml="";
+		                    	for(i=0;i<spanlist.length;i++){
+		                    		spanHtml+="<span class='greyborSpan marRight2'>"+spanlist[i]+"</span>";
+		                    	}
+                    	};
+                    	$("#descript").html(data.evaluation);
+                    	_t.default();
+                    }
+                 });
+         },
+         /*加载目录*/
+            directory: function() {
+                var _t = this;
+               	 //通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"id":value}
+									}
+									  }
+									else{
+										var parm = {"id": 1};
+									} 
+									
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://118.89.150.168:8080/msg/206',
+                    data: parm,
+                    dataType: 'json',
+                    success: function(data) {
+                    	if(data.d.length<=0){
+                    		 $("#MuluId").html("暂无记录");
+                    	}else{
+                    		var muLuCon = "<div>";
+                        for (var i = 0; i < data.d[data.d.length - 1].chapter; i++) {
+                            muLuCon += "<ul class='keCheng keChengMu'><span class='greyPoint'></span><li class='title'><a data-id='" + data.d.url + " data-courseId='" + data.d.chapter + "'>第" + (i + 1) + "章</a>";
+                            $.each(data.d,
+                            function(key, value) {
+                                if (value.chapter == i + 1) {
+                                    muLuCon += "<span class='time'>" + value.course_date + "&nbsp;" + value.start_time + "-" + value.end_time + "</span></li>" + "<li>" + value.title + "</li>";
+                                }
+                            })
+
+                            muLuCon += "</ul>";
+                        }
+                        muLuCon += "</div>";
+                        $("#MuluId").html(muLuCon);
+                    	}
+                    },
+                    error: function(xhr, type) {
+                        console.info("服务器出错");
+                    }
+                })
+            },
+            /*加载评价*/
+					evaluation:function(){
+						var _t=this;
+						 //通过链接获取id
+        				var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							var name, value;
+						  var str = location.href; //获取到整个地址
+						  var num = str.indexOf("?")
+						  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+						  var arr = str.split("&"); //以&分割各个参数放到数组里
+						  for (var i = 0; i < arr.length; i++) {
+						  num = arr[i].indexOf("=");
+						 if (num > 0) {
+						name = arr[i].substring(0, num);
+						value = arr[i].substr(num + 1);
+						 this[name] = value;
+						 }
+						 var parm={"id":value}
+						}
+						  }
+						else{
+							var parm = {"id": 1};
+						} 
+						$.ajax({
+			              type: 'POST',
+			              url: 'http://118.89.150.168:8080/msg/208',
+			              data:parm,
+			              dataType: 'json',
+			              success: function(data) {
+			              	var data=data.d;
+			              	var pingCon="";
+			              	if(data.list.length<=0){
+			              		$("#pingLun").html("<p class='greyFont'>暂无评价记录</p>");
+			              	}else{
+			              		for(i=0;i<data.list.length;i++){
+					              		pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+														"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div>";
+									    			pingCon+="</div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+					             	} 
+									    	$("#pingLun").append(pingCon);
+			              	}
+										     $(".starCore p").each(function(index, element) {
+										        var num=$(this).attr("tip");
+										        var www=num*2*16;//
+										        $(this).css("width",www);
+										        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+										    });
+										    //综合评分
+										    $("#score").html(data.complex);
+										    _t.default();
+			              },
+			              error: function(xhr, type) {
+			                console.info("服务器出错");
+			              }
+			            })
+					},
+					/*图片加载*/
+					default:function(){
+						var_t=this;
+						$('img').error(function(){
+							$(this).attr("src","../images/default.png");
+						});
+					}
+        }
+        $(function() {
+          g.init();
+        });
+      })($);</script>
+       <script type="text/javascript">
+						var myScroll,
+								pullDownEl, pullDownOffset,
+								pullUpEl, pullUpOffset,
+								generatedCount = 0;
+						var page=1;
+						 function AjaxLoad() {
+						 	//通过链接获取id
+					        var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"id":value,"page":page++,"page_size":15}
+									}
+									  }
+									else{
+										var parm={"id":value,"page":page++,"page_size":15}
+									} 
+								$.ajax({
+					              type: 'POST',
+					              url: 'http://118.89.150.168:8080/msg/208',
+					              data:parm,
+					              dataType: 'json',
+					              success: function(data) {
+					              	var data=data.d;
+					              	var pingCon="";
+					              		for(i=0;i<data.list.length;i++){
+					              			pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+															"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div>";
+									    				pingCon+="</div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+					              		} 
+					              	pingCon+="";
+									    		$("#pingLun").append(pingCon);
+											     $(".starCore p").each(function(index, element) {
+											        var num=$(this).attr("tip");
+											        var www=num*2*16;//
+											        $(this).css("width",www);
+											        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+											    });
+									     $('img').error(function(){
+												$(this).attr("src","../images/default.png");
+											});
+					              },
+					              error: function(xhr, type) {
+					                console.info("服务器出错");
+					              }
+					          });
+					          
+								myScroll.refresh();		
+						}
+						 
+					
+						function pullDownAction () {
+							setTimeout(function () {
+								/* AjaxLoad();*/
+								 setTimeout(function(){
+								 	myScroll.refresh();	
+								 }, 1000);
+							}, 1000);
+						}
+						
+						function pullUpAction () {
+						setTimeout(function () {
+							 AjaxLoad();
+							setTimeout(function(){
+								 	myScroll.refresh();	
+								 }, 1000);	
+						}, 1000);	
+					}
+						/**
+						 * 初始化iScroll控件
+						 */
+						function loaded() {
+				pullDownEl = document.getElementById('pullDown');
+				pullDownOffset = pullDownEl.offsetHeight;
+				pullUpEl = document.getElementById('pullUp');	
+				pullUpOffset = pullUpEl.offsetHeight;
+				
+				myScroll = new iScroll('wrapper', {
+					scrollbarClass: 'myScrollbar', /* 重要样式 */
+					useTransition: false, /* 此属性不知用意，本人从true改为false */
+					topOffset: pullDownOffset,
+					onRefresh: function () {
+						if (pullDownEl.className.match('loading')) {
+							pullDownEl.className = '';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+						} else if (pullUpEl.className.match('loading')) {
+							pullUpEl.className = '';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+						}
+					},
+					onScrollMove: function () {
+						if (this.y > 5 && !pullDownEl.className.match('flip')) {
+							pullDownEl.className = 'flip';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+							this.minScrollY = 0;
+						} else if (this.y < 5 && pullDownEl.className.match('flip')) {
+							pullDownEl.className = '';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+							this.minScrollY = -pullDownOffset;
+						} else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+							pullUpEl.className = 'flip';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+							this.maxScrollY = this.maxScrollY;
+						} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+							pullUpEl.className = '';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+							this.maxScrollY = pullUpOffset;
+						}
+					},
+					onScrollEnd: function () {
+						if (pullDownEl.className.match('flip')) {
+							pullDownEl.className = 'loading';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';				
+							pullDownAction();	// Execute custom function (ajax call?)
+						} else if (pullUpEl.className.match('flip')) {
+							pullUpEl.className = 'loading';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+							pullUpAction();	// Execute custom function (ajax call?)
+						}
+					}
+				});
+				
+				setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+			}
+			
+						
+						//初始化绑定iScroll控件 
+						//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+						document.addEventListener('DOMContentLoaded', loaded, false); 
+			
+			</script>
+    </body>
+
+</html>

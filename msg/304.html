@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>报名列表</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    
+    <body class="marginNone padBottom20 theBody">
+      <script src="../js/zepto.js"></script>
+      <script>
+    !(function(){
+    	var g={
+    		init:function(){
+    				var _t=this;
+    				_t.teaList();
+    		},
+    		/*老师列表*/
+    		teaList:function(){
+    			var _t=this;
+    			//通过链接获取id
+        		var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							var name, value;
+						  var str = location.href; //获取到整个地址
+						  var num = str.indexOf("?")
+						  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+						  var arr = str.split("&"); //以&分割各个参数放到数组里
+						  for (var i = 0; i < arr.length; i++) {
+						  num = arr[i].indexOf("=");
+						 if (num > 0) {
+						name = arr[i].substring(0, num);
+						value = arr[i].substr(num + 1);
+						 this[name] = value;
+						 } 
+    					var muLuData = {"id": value,"type":1};
+						}
+						  }
+						else{
+    					var muLuData = {"id": 1};
+						}
+            $.ajax({
+                type: 'POST',
+                url: 'http://118.89.150.168:8080/msg/304',
+                data: muLuData,
+                dataType: 'json',
+                success: function(data) {
+                	console.log(data);
+                	var data=data.d;
+                	var teaCon="";
+                	for(i=0;i<data.length;i++){
+                		teaCon+="<div class='padLeftRight webkBlo borBottom'><div class='webkBlo moreTeaCon moreBaoCon'>"+
+												"<img src='"+data[i].avatar+"' class='moreTeaImg'/><div class='webInp'><span class='peoName'>"+data[i].nickname+"</span><span class='time'>"+data[i].create_time+"</span></div></div></div>";  	
+            			}
+                	teaCon+="";
+										$("body").append(teaCon);
+					
+                }
+             });
+    		}
+    	}
+    	$(function(){
+    		g.init();
+    	});
+    })($);
+      </script>
+    </body>
+
+</html>

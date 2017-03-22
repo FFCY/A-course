@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Video.js | HTML5 Video Player</title>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../2.js/ckplayer.js"></script>
+    <!--<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="../css/video-js.css" rel="stylesheet">
+    <script src="../js/videojs-contrib-media-sources.js"></script>
+    <script src="../js/video.js"></script>
+    <script src="../js/videojs-contrib-hls.js"></script>-->
+
+</head>
+<body>
+	<div id="a1"></div>
+	<div id="nowTime"></div>
+	<script type="text/javascript" src="../2.js/ckplayer.js"></script>
+	<script type="text/javascript">
+	  var flashvars={
+	    f:'http://movie.ks.js.cn/flv/other/2014/06/20-2.flv',
+	    c:0,
+	    p:1,
+	    l:'http://k.ctsywy.com/xml/ckplayer_4417_20150206.swf',
+	    t:15,
+	    b:1,
+	    i:'',
+	    my_url:encodeURIComponent(window.location.href)
+	  };
+	  var video=['http://www.streambox.fr/playlists/test_001/stream.m3u8'];
+	  CKobject.embed('/ckplayer/6.6/ckplayer.swf','a1','ckplayer_a1','100%','100%',false,flashvars,video);
+	</script>
+</body>
+</html>

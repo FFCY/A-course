@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>简易数据库示例</title>
+</head>
+<body>
+    <h1>使用WebStorage来做简易数据库</h1>
+    <table>
+        <tr>
+            <td>姓名：</td>
+            <td><input type="text" id="name"></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="text" id="email"></td>
+        </tr>
+        <tr>
+            <td>电话号码：</td>
+            <td><input type="text" id="tel"></td>
+        </tr>
+        <tr>
+            <td>备注：</td>
+            <td><input type="text" id="memo"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="button" value="保存" onclick="saveStorage();"></td>
+        </tr>
+    </table>
+    <hr>
+    <p>检索(你输入的姓名，键值对的键)：<input type="text" id="find">
+        <input type="button" value="检索" onclick="findStorage('msg');">
+    </p>
+    <p id="msg"></p>
+    <script>
+        function saveStorage() {
+            /*
+            * 主要是 创建对象保存好几个属性值， 运用JSON技术
+            * */
+            var data = new Object();
+            data.name = document.getElementById("name").value;
+            data.email = document.getElementById("email").value;
+            data.tel = document.getElementById("tel").value;
+            data.memo = document.getElementById("memo").value;
+            var str = JSON.stringify(data);
+            localStorage.setItem(data.name,str);
+            alert("数据已保存");
+        }
+        function findStorage(id) {
+           var find = document.getElementById('find').value;
+            var str = localStorage.getItem(find);
+            var data = JSON.parse(str);
+            var result = "姓名："+data.name+'<br>';
+            result += "EMAIL" + data.email +'<br>';
+            result += "电话号码" +data.tel + '<br>';
+            result +="备注"+data.memo + '<br>';
+            var target = document.getElementById(id);
+            target.innerHTML = result ;
+        }
+        window.onunload=function(){
+		   alert('用户要离开啦');
+		}
+		    </script>
+</body>
+</html>

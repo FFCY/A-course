@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta content="telephone=no" name="format-detection">
+        <meta name="wap-font-scale" content="no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>全课程</title>
+        <link href="../css/index.css?+Math.random()" rel="stylesheet">
+        <link href="../css/video-js.css?+Math.random()" rel="stylesheet" type="text/css">
+        <link href="../css/scrollbar.css" rel="stylesheet">
+    </head>
+    
+    <body class="marginNone padBottom50 theBody">
+        <div class="videoBlock">
+            <video class="video-js vjs-default-skin" controls preload="none" width="100%" data-setup="{}" src="">
+                <source src="" type='video/mp4' width="100%" poster="../images/banner1.png"/>
+                <source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm' />
+                <source src="http://vjs.zencdn.net/v/oceans.ogv" type='video/ogg' />
+                <track kind="captions" src="demo.captions.vtt" srclang="en" label="English">
+                </track>
+                <!-- Tracks need an ending tag thanks to IE9 -->
+                <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English">
+                </track>
+                <!-- Tracks need an ending tag thanks to IE9 -->
+            </video>
+        </div>
+        <div class="mainContent marginBody leftRight" id="vedioPrice">
+			<!--视频下方-->
+		</div>
+        <ul class="tabUl padLeftRight borBottom borTop">
+            <li class="active">
+                <span>
+                    目录
+                </span>
+            </li>
+            <li>
+                <span>
+                    详情
+                </span>
+            </li>
+            <li>
+                <span>
+                    	评价
+                </span>
+            </li>
+        </ul>
+        <div class="tabBlock">
+            <div class="tabContent">
+                <div class="tabCon">
+                    <div class="padLeftRight padBottom20">
+                        <p class="title color2C outLine">
+                            课程提纲
+                        </p>
+                        <div id="MuluId">
+                            <!--目录-->
+                        </div>
+                    </div>
+                </div>
+                 <div class="tabCon disNone">
+                    <div class="padLeftRight padBottom20" id="corseXuZhi">
+		           </div>
+		          <a class="disBlock">
+		            <div class="agencyName borBottom borTop padLeftRight webkBlo" id="jiGouCon">
+		             
+		            </div>
+		          </a>
+                </div>
+                <div class="tabCon disNone padLeftRight">
+                    	<p class="title color2C size13 padTop20 marBottom10">
+           					<span class="greyFont size12">综合评分</span><span id="score"></span>
+                    	</p>
+                    	<div class="lunRelative">
+							<div id="wrapper">
+							<div id="scroller" >
+								<div id="pullDown" style="overflow: hidden;">
+									<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+								</div>
+								<div id="pingLun"></div>
+								<div id="pullUp" class="pullUp" style="overflow: hidden;">
+									<span class="pullUpIcon"></span><span class="pullUpLabel"></span>
+								</div>
+							</div>
+							</div>
+						</div>
+                </div>
+            </div>
+        </div>
+        <script src="../js/zepto.js"></script>
+        <script src="../js/video.js"></script>
+        <script src="../js/iscroll.js"></script>
+		<script src="../js/iscroll4.2.5.js"></script>
+		<script src="../js/startScore.js"></script>
+		<script src="../js/common.js"></script>
+        <script>
+            !(function($) {
+                var g = {
+                    init: function() {
+                        var _t = this;
+                        //调用tab
+                        _t.tab();
+                        /*一元课详情*/
+                        _t.keDetail();
+                        /*目录*/
+                        _t.directory();
+                        /*评价*/
+                       _t.evaluation();
+                       /*图片加载失败*/
+             			_t.default();
+                    },
+                    //调用tab
+                    tab: function() {
+                        var _t = this;
+                        $(".tabUl li").each(function(index, element) {
+                            var i = index;
+                            $(this).on('click',
+                            function() {
+                                $(".tabUl li").removeClass("active");
+                                $(this).addClass("active");
+                                $(".tabContent .tabCon").hide();
+                                $(".tabContent .tabCon").eq(i).show();
+
+                            });
+                        });
+                    },
+                    keDetail: function() {
+                        var _t = this;
+                        var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							function GetQueryString(name)
+							{
+							     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+							     var r = window.location.search.substr(1).match(reg);
+							     if(r!=null)return  unescape(r[2]); return null;
+							}
+							GetQueryString("id");
+							var idNum=GetQueryString("id");
+							var userId=GetQueryString("user_id");
+							var relaId=idNum;
+							var uId=userId;
+							var parm={"id":idNum,"user_id":userId};
+							}
+							else{
+								var parm={"id":1,"user_id":1};
+								var relaId=1;
+								var uId=1;
+							}
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/207',
+                            data: parm,
+                            dataType: 'json',
+                            success: function(data) {
+                                var data = data.d;
+                                var con1="<p class='redBiao marBottom10 marTop10'>"+(data.category_name==null?" ":+data.category_name)+"</p>\
+								<p class='titleKe color333 marBottom7'>"+data.title+"</p>\
+								<p class='greyFont size12'>"+data.study_num+"人学过&nbsp;|&nbsp;"+data.star+"星评价</p>";
+				              	if(data.is_fee==0){
+				              		var pCon='<p class="redFont price">免费</p>';
+				              		con1+=pCon;
+				              	}else{
+				              		if(data.is_kill==1){
+				              		var pCon2="<p class='redFont price'>￥"+data.kill_price+"<span class='greyFont del'>￥"+data.fee+"</span></p>";
+				              		}else{
+				              		var pCon2="<p class='redFont price'>￥"+data.group_price+"<span class='greyFont del'>￥"+data.fee+"</span></p>";
+				              		}
+				              		con1+=pCon2;
+				              	}
+				              	$("#vedioPrice").html(con1);
+                                var yiYuanCon = "<p class='redBiao marBottom10 marTop10' id='cateName'>" + data.category_name + "</p>" + "<p class='titleKe color333 marBottom7'>" + data.title + "</p>" + "<p class='moneyTime marBottom10 overHide'>" + "<span class='redFont marRight5'>￥<font class='size13'>1</font></span>" + "<span class='coloe9a delFont marRight5'>1999</span>" + "<span class='coloe9a marRight9'>" + data.course_date + "开课</span></p>";
+                                $("#underVideo").html(yiYuanCon);
+                                var courseDetail="<p class='title color2C size13 padTop20 marBottom7'>课程须知</p>"+
+						            "<p class='xuzhiP size13 color999'>"+data.notice+"</p>"+
+						            "<p class='title color2C size13 padTop20 marBottom7'>"+data.title+"</p>";
+								/*课程须知*/
+								var detailList=data.caption;
+								var detailArr=detailList.split("，");
+								for(i=0;i<detailArr.length;i++){
+									courseDetail+="<p class='xuzhiP size13 color999'>"+detailArr[i]+"</p>";
+								}
+								$("#corseXuZhi").html(courseDetail);
+								/*机构详情*/
+								var jiGouCon="<p class='agencyImg marRight9'><img src='"+data.teacher_img_url+"' /></p><div class='agencyMes webInp'>"+
+											"<div class='agencyUl marBottom10'><div class='ageTitle neiDiv'>"+data.institute+"</div>"+
+										"<div class='enterJigou posRelite neiDiv'>进入机构<img src='../images/right_icon.png' class='greyRight' /></div>"+
+										"<p class='crownP clearBoth><img src=../../images/crown.png' class='crownImg' /></p></div><ul class='borderUl'>"+
+						                  "<li>满意度98%</li><li>学生数10444</li><li>课程38</li></ul></div>";
+						    /*机构详情*/
+						   $("#jiGouCon").html(jiGouCon);
+						  document.getElementById("vjs_video_3_html5_api").poster=data.imgurl; 
+						  console.log($(".vjs-tech").attr("poster"))
+                           //$("#my_video_1_html5_api").attr("src",data.d.imgurl);
+                           if(data.institute_id==null){
+						   	$("#jiGouCon").hide();
+						   }else{
+						   	$("#jiGouCon").show();
+						   }
+                           if(hasPlus>-1){
+	                           	$("#jiGouCon").on('click',function(){
+	                           		var urlId=data.institute_id;
+	                           	jiGouUrl(data.institute_id,uId);
+	                           });
+	                             function jiGouUrl(urlId,uId){
+									if(isAndroid==1){
+									//此处是安卓的留白
+									window.android.onMoreClick();
+									}else if(isiOS==1){
+			        		       window.webkit.messageHandlers.Share.postMessage({});
+									}
+									window.location.href='http://118.89.150.168:8080/static/page/a/msg/271j.html?id='+idNum+"&"+"user_id="+uId;
+	                             }
+	                             if(data.is_buy==0){
+		                             	if(data.is_fee==0){
+											/*免费*/
+											_t.freeMuLu();
+										}else if(data.is_fee==1){
+											/*收费*/
+											if(data.group_price<=0){
+												_t.freeMuLu();
+											}else{
+											_t.directory();
+											}
+										}
+	                             }else if(data.is_buy==1){
+	                             	_t.freeMuLu();
+	                             }
+	                             
+                           }else{
+                           		_t.directory();
+	                           	var hideCon="<div class='hideVideo'><div>";
+	                           	$("#vjs_video_3").before(hideCon);
+	                           	console.log("不在本app内打开");
+	                           	$(".hideVideo,#vedioPrice,#MuluId,#jiGouCon,#pingLun").on('click',function(){
+	                           		downLoad();
+	                           	});
+	                           	function downLoad(){
+									if(isAndroid==1){
+										//此处是安卓的留白
+									window.location.href=andAppUrl;
+									}else if(isiOS==1){
+									window.location.href=iosAppUrl;
+									}
+	                           }
+                           }
+								/*图片加载失败*/
+         						_t.default();
+                           }
+                       });
+                    },
+                    /*免费目录*/
+					freeMuLu:function(){
+						var _t=this;
+						var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							function GetQueryString(name)
+							{
+							     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+							     var r = window.location.search.substr(1).match(reg);
+							     if(r!=null)return  unescape(r[2]); return null;
+							}
+							GetQueryString("id");
+							var idNum=GetQueryString("id");
+							var userId=GetQueryString("user_id");
+							var parm={"id":idNum,"user_id":userId};
+							console.log(url);
+							}
+							else{
+								var parm={"id":1,"user_id":1};
+								var idNum=1;
+							}
+						$.ajax({
+			              type: 'POST',
+			              url: 'http://118.89.150.168:8080/msg/221',
+			              data:parm,
+			              dataType: 'json',
+			              success: function(data) {
+			              	var muLuCon = "<div>";
+	                                for (var i = 0; i < data.d[data.d.length - 1].chapter; i++) {
+	                                    muLuCon += "<ul class='keCheng keChengMu'><span class='greyPoint'></span><li class='title'><a  data-url="+data.d[i].url+" data-courseId='" + data.d.chapter + "'>第" + (i + 1) + "章</a>";
+	                                    $.each(data.d,
+	                                    function(key, value) {
+	                                        if (value.chapter == i + 1) {
+	                                            muLuCon += "<span class='time'>" + value.course_date + "&nbsp;" + value.start_time + "-" + value.end_time + "</span></li>" + "<li class='muLuUrl'>" + value.title + "</li>";
+	                                        }
+	                                    })
+	
+	                                    muLuCon += "</ul>";
+	                                }
+	                                muLuCon += "</div>";
+			              	$("#MuluId").html(muLuCon);
+			              	/*点击目录出现对应视频*/
+			              	$(".keCheng .title a").on('click',function(){
+			              		var scrLink=$(this).attr("data-url");
+			              		$(".title a").removeClass("active");
+			              		$(this).addClass("active");
+			              		$("#vjs_video_3_html5_api").attr("src",scrLink);
+			              		var myPlayer = _V_("vjs_video_3_html5_api");
+			              		myPlayer.play();
+			              	});
+			              },
+			              error: function(xhr, type) {
+			                console.info("服务器出错");
+			              }
+			            })
+					},
+                    /*加载目录*/
+                    directory: function() {
+                        var _t = this;
+                        //通过链接获取id
+        				var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							function GetQueryString(name)
+							{
+							     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+							     var r = window.location.search.substr(1).match(reg);
+							     if(r!=null)return  unescape(r[2]); return null;
+							}
+							GetQueryString("id");
+							var idNum=GetQueryString("id");
+							var userId=GetQueryString("user_id");
+							var parm={"id":idNum,"user_id":userId};
+							console.log(url);
+							}
+							else{
+								var parm={"id":1,"user_id":1};
+								var idNum=1;
+							}
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/206',
+                            data: parm,
+                            dataType: 'json',
+                            success: function(data) {
+                                var muLuCon = "<div>";
+                                for (var i = 0; i < data.d[data.d.length - 1].chapter; i++) {
+                                    muLuCon += "<ul class='keCheng keChengMu'><span class='greyPoint'></span><li class='title'>第" + (i + 1) + "章";
+                                    $.each(data.d,
+                                    function(key, value) {
+                                        if (value.chapter == i + 1) {
+                                            muLuCon += "<span class='time'>" + value.course_date + "&nbsp;" + value.start_time + "-" + value.end_time + "</span></li>" + "<li><a data-id='" + data.d.url + " data-courseId='" + data.d.chapter + "'>" + value.title + "</a></li>";
+                                        }
+                                    })
+                                    muLuCon += "</ul>";
+                                }
+                                muLuCon += "</div>";
+                                $("#MuluId").html(muLuCon);
+                               
+                            },
+                            error: function(xhr, type) {
+                                console.info("服务器出错");
+                            }
+                        })
+                    },
+                     /*加载评价*/
+					evaluation:function(){
+						var _t=this;
+						 //通过链接获取id
+        				var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							function GetQueryString(name)
+							{
+							     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+							     var r = window.location.search.substr(1).match(reg);
+							     if(r!=null)return  unescape(r[2]); return null;
+							}
+							GetQueryString("id");
+							var idNum=GetQueryString("id");
+							var userId=GetQueryString("user_id");
+							var parm={"id":idNum,"user_id":userId,"page":1,"page_size":15};
+							console.log(url);
+							}
+							else{
+								var parm={"id":1,"user_id":1,"page":1,"page_size":15};
+								var idNum=1;
+							}
+						$.ajax({
+			              type: 'POST',
+			              url: 'http://118.89.150.168:8080/msg/208',
+			              data:parm,
+			              dataType: 'json',
+			              success: function(data) {
+			              	var data=data.d;
+			              	var pingCon="";
+			              	if(data.list.length<1){
+			              		$("#pingLun").append("<p class='greyFont'>暂无评价记录</p>");
+			              	}else{
+			              		for(i=0;i<data.list.length;i++){
+			              		pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+								"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div></div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+							  console.log()
+			              	}  
+							    $("#pingLun").append(pingCon);
+			              	}
+							    //综合评分
+							    $("#score").html(data.complex);
+							    $(".starCore p").each(function(index, element) {
+							        var num=$(this).attr("tip");
+							        var www=num*2*16;//
+							        $(this).css("width",www);
+							        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+							    });
+							    /*图片加载失败*/
+             					_t.default();
+			              },
+			              error: function(xhr, type) {
+			                console.info("服务器出错");
+			              }
+			            })
+					},
+					/*本地存储*/
+					saveStorage:function(){
+						var _t=this;
+						/*这里是我想试试视频本地存储*/
+					},
+					/*调用本地存储*/
+					findStorage:function(){
+						var _t=this;
+					},
+					 /*图片加载失败*/
+			          default:function(){
+			          	var _t=this;
+			          	/*如果图片加载失败则用默认头像*/
+					    	$('img').error(function(){
+								$(this).attr("src","../images/default.png");
+							});
+			          }
+
+                }
+                $(function() {
+                    g.init();
+                });
+            })($);
+        </script>
+        <script type="text/javascript">
+		var myScroll,
+			pullDownEl, pullDownOffset,
+			pullUpEl, pullUpOffset,
+			generatedCount = 0;
+		var page=1;
+		 function AjaxLoad() {
+		 	//通过链接获取id
+			var url=location.search; 
+			if(url.indexOf("?")!=-1) 
+			{
+				function GetQueryString(name)
+				{
+				     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				     var r = window.location.search.substr(1).match(reg);
+				     if(r!=null)return  unescape(r[2]); return null;
+				}
+				GetQueryString("id");
+				var idNum=GetQueryString("id");
+				var userId=GetQueryString("user_id");
+				var parm={"id":idNum,"user_id":userId,"page":page++,"page_size":15};
+				}
+				else{
+					var parm={"id":1,"user_id":1,"page":page++,"page_size":15};
+					var idNum=1;
+				}
+		$.ajax({
+          type: 'POST',
+          url: 'http://118.89.150.168:8080/msg/208',
+          data:parm,
+          dataType: 'json',
+          success: function(data) {
+          	var data=data.d;
+          	var pingCon="";
+          	for(i=0;i<data.list.length;i++){
+          		pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+				"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div></div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+          	}  
+			    $("#pingLun").append(pingCon);
+			    //综合评分
+			    $("#score").html(data.complex)
+			    $(".starCore p").each(function(index, element) {
+			        var num=$(this).attr("tip");
+			        var www=num*2*16;//
+			        $(this).css("width",www);
+			        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+			    });
+			    $('img').error(function(){
+					$(this).attr("src","../images/default.png");
+				});
+          },
+          error: function(xhr, type) {
+            console.info("服务器出错");
+          }
+      });
+      
+		myScroll.refresh();		
+}
+					
+	function pullDownAction () {
+		setTimeout(function () {
+       if(hasPlus>-1){
+       	AjaxLoad();
+       }else{
+       		var u = navigator.userAgent, app = navigator.appVersion;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			if(isAndroid==1){
+			window.location.href=andAppUrl;
+			}else if(isiOS==1){
+			window.location.href=iosAppUrl;
+			}
+       }
+			 setTimeout(function(){
+			 	myScroll.refresh();	
+			 }, 1000);
+		}, 1000);
+	}
+	
+	function pullUpAction () {
+	setTimeout(function () {
+       if(hasPlus>-1){
+       	AjaxLoad();
+       }else{
+       		var u = navigator.userAgent, app = navigator.appVersion;
+			var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+			var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			if(isAndroid==1){
+			window.location.href=andAppUrl;
+			}else if(isiOS==1){
+			window.location.href=iosAppUrl;
+			}
+      }
+		setTimeout(function(){
+			 	myScroll.refresh();	
+			 }, 1000);	
+	}, 1000);	
+}
+	/**
+	 * 初始化iScroll控件
+	 */
+	function loaded() {
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	pullUpEl = document.getElementById('pullUp');	
+	pullUpOffset = pullUpEl.offsetHeight;
+	
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: 'myScrollbar', /* 重要样式 */
+		useTransition: false, /* 此属性不知用意，本人从true改为false */
+		topOffset: pullDownOffset,
+		onRefresh: function () {
+			if (pullDownEl.className.match('loading')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+			} else if (pullUpEl.className.match('loading')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+			}
+		},
+		onScrollMove: function () {
+			if (this.y > 5 && !pullDownEl.className.match('flip')) {
+				pullDownEl.className = 'flip';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+				this.minScrollY = 0;
+			} else if (this.y < 5 && pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+				this.minScrollY = -pullDownOffset;
+			} else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'flip';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+				this.maxScrollY = this.maxScrollY;
+			} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+				this.maxScrollY = pullUpOffset;
+			}
+		},
+		onScrollEnd: function () {
+			if (pullDownEl.className.match('flip')) {
+				pullDownEl.className = 'loading';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';				
+				pullDownAction();	// Execute custom function (ajax call?)
+			} else if (pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'loading';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+				pullUpAction();	// Execute custom function (ajax call?)
+			}
+		}
+	});
+	
+	setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+}	
+	//初始化绑定iScroll控件 
+	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', loaded, false); 
+			
+			</script>
+    </body>
+
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta content="telephone=no" name="format-detection">
+        <meta name="wap-font-scale" content="no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>一元课</title>
+        <link href="../css/index.css?+Math.random()" rel="stylesheet">
+        <link href="../css/video-js.css" rel="stylesheet" type="text/css">
+    </head>
+    <body class="marginNone padBottom20 theBody">
+        <!--详情-->
+        <a class="disBlock" id="cherBlock"></a>
+        <ul class="tabUl padLeftRight borBottom">
+            <li class="active">
+                <span>目录</span>
+            </li>
+            <li>
+                <span>详情</span>
+            </li>
+            <li>
+                <span>参与纪录</span>
+            </li>
+        </ul>
+        <div class="tabBlock">
+            <div class="tabContent">
+                <div class="tabCon">
+                    <div class="padLeftRight padBottom20">
+                        <p class="title color2C outLine">课程提纲
+						</p>
+                        <div id="MuluId">
+                        <!--目录-->
+                        </div>
+                    </div>
+                </div>
+                <div class="tabCon disNone">
+                    <div class="padLeftRight padBottom20" id="corseXuZhi"></div>
+                    <a class="disBlock">
+                        <div class="agencyName borBottom borTop padLeftRight webkBlo" id="jiGouCon"></div>
+                    </a>
+                </div>
+                <div class="tabCon disNone" id="can-wrapper">
+                    <div class="webkBlo padBottom10 borBottom marTop10 padLeftRight">
+                        <p class="pingPer marRight9">
+                            <img src="../images/jigGou.png"/>
+                        </p>
+                        <div class="webInp">
+                            <div class="greyFont size12 marBottom4">小蜻蜓
+               
+              </div>
+                            <p class="hasFleft">
+                                <span class="width50P">
+                                    参与<font class="redFont">1</font>
+                                    次
+                                </span>
+                                <span class="width50P textRight">2016-10-29 &nbsp;8:00</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../js/zepto.js"></script>
+        <script src="../js/common.js"></script>
+        <script>
+            !(function($) {
+                var g = {
+                    init: function() {
+                        var _t = this;
+                        //调用tab
+                        _t.tab();
+                        /*一元课详情*/
+                        _t.keDetail();
+                        /*目录*/
+                        _t.directory();
+                        /*图片加载失败*/
+                        _t.default();
+                    },
+                    //调用tab
+                    tab: function() {
+                        var _t = this;
+                        $(".tabUl li").each(function(index, element) {
+                            var i = index;
+                            $(this).on('click', function() {
+                                $(".tabUl li").removeClass("active");
+                                $(this).addClass("active");
+                                $(".tabContent .tabCon").hide();
+                                $(".tabContent .tabCon").eq(i).show();
+                            });
+                        });
+                    },
+                    /*一元课详情*/
+                    keDetail: function() {
+                        var _t = this;
+                        //通过链接获取id
+                        var url = location.search;
+                        if (url.indexOf("?") != -1) {
+                            function GetQueryString(name) {
+                                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                                var r = window.location.search.substr(1).match(reg);
+                                if (r != null)
+                                    return unescape(r[2]);
+                                return null;
+                            }
+                            GetQueryString("id");
+                            var idNum = GetQueryString("id");
+                            var userId = GetQueryString("user_id");
+                            var relaId = idNum;
+                            var uId = userId;
+                            console.log("有参数");
+                            var parm = {
+                                "id": idNum,
+                                "user_id": userId
+                            };
+                        } else {
+                            var parm = {
+                                "id": 1,
+                                "user_id": 1
+                            };
+                            var relaId = 1;
+                            var uId = 1;
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/241',
+                            data: parm,
+                            dataType: 'json',
+                            success: function(data) {
+                                var yiYuanCon = " <div class='agencyName borTop padLeftRight webkBlo'>"+
+        								"<p class='agencyImg marRight9'><img src='" + data.d.imgurl + "' class='marBottom7'/><br />"+
+          							"<span class='guWenPer'><img src='../images/zhiHhao.png' class='marRight5' />" + data.d.lecturer + "<br />"+
+          							"<span class='greyEr size12'>" +(data.d.position==null?" ":data.d.position)+ "</span></span><div class='agencyMes webInp'>"+
+          							"<div class='agencyUl'><p class='teaTitle marTop4'>" + data.d.title + "</p>"+
+            						"<p class='coloe9a marBottom7'>" + data.d.course_date + "开课</p>"+
+            						"<p class='coloe9a size12 height14'>开奖时间：" + data.d.prize_date + "&nbsp;&nbsp;</p><div class='redFont textRight'><span class='price marRight9'><font class='size12'>￥</font>1</span></div></div>"+
+            						"</div></div><div class='progressBlo padLeftRight padBottom10 borBottom'>"+
+      								"<ul class='coloe9a size12 jinUl'><li class='percent22'>总需：" + data.d.total + "</li><li class='percent58' id='daoTime'>开奖时间：</li><li class='textRight percent20'>剩余" + data.d.last + "</li>"+
+      								"</ul><p class='proP marTop10 jinDuP'></p></div>";
+                                var perValue = ((data.d.total - data.d.last) / data.d.total) * 100 + "%";
+                                var duSpan = "<span class='value' style='width:" + perValue + "'></span>";
+                                $("#cherBlock").html(yiYuanCon);
+                                $(".jinDuP").html(duSpan);
+                                var courseDetail = "<p class='title color2C size13 padTop20 marBottom7'>课程须知</p>" + "<p class='xuzhiP size13 color999'>" + (data.notice == undefined ? "暂无须知" : data.notice) + "</p>" + "<p class='title color2C size13 padTop20 marBottom7'>" + (data.title == undefined ? "" : data.title) + "</p>";
+                                /*课程须知*/
+                                var detailList = data.caption;
+                                /*var detailArr=detailList.split("，");
+											for(i=0;i<detailArr.length;i++){
+												courseDetail+="<p class='xuzhiP size13 color999'>"+detailArr[i]+"</p>";
+											}*/
+                                $("#corseXuZhi").html(courseDetail);
+                                if (data.institute_id == null) {
+                                    $("#jiGouCon").hide();
+                                    $("#jiGouId").html("");
+                                } else {
+                                    $("#jiGouCon").show();
+                                }
+                                /*机构详情*/
+                                var jiGouCon = "<p class='agencyImg marRight9'><img src='" + data.imgurl + "' /></p><div class='agencyMes webInp'>" + "<div class='agencyUl marBottom10'><div class='ageTitle neiDiv'>" + data.institute + "</div>" + "<div class='enterJigou posRelite neiDiv'>进入机构<img src='../images/right_icon.png' class='greyRight' /></div>" + "<p class='crownP clearBoth><img src=../../images/crown.png' class='crownImg' /></p></div><ul class='borderUl'>" + "<li>满意度98%</li><li>学生数10444</li><li>课程38</li></ul></div>";
+                                /*机构详情*/
+                                $("#jiGouCon").html(jiGouCon);
+                                if (hasPlus > 0) {
+                                    $("#jiGouCon").on('click', function() {
+                                        jiGouUrl(data.d.institute_id, uId);
+                                    });
+                                    function jiGouUrl(jid, uId) {
+                                        if (isAndroid == 1) {
+                                            //此处是安卓的留白
+                                            window.android.onMoreClick();
+                                        } else if (isiOS == 1) {
+                                            window.webkit.messageHandlers.Share.postMessage({});
+                                        }
+                                        window.location.href = 'http://118.89.150.168:8080/static/page/a/msg/271j.html?id=' + jid + "&user_id=" + uId;
+                                    }
+                                } else {
+                                    $("#cherBlock,#MuluId,#jiGouCon,#can-wrapper").on('click', function() {
+                                        downLoad();
+                                    });
+                                    function downLoad() {
+                                        if (isAndroid == 1) {
+                                            //此处是安卓的留白
+                                            window.location.href = andAppUrl;
+                                        } else if (isiOS == 1) {
+                                            window.location.href = iosAppUrl;
+                                        }
+                                    }
+                                }
+                                 $.fn.countTime = function(options) {
+	                            function Count(elemnt, options) {
+	                                this.elemnt = elemnt;
+	                                this.init();
+	                            }
+	                            Count.prototype = {
+	                                init:function(){
+									this.options = $.extend({},options||{});
+									this.arr=this.elemnt.children();
+									this.time =null	 		
+									this.updateTime(this,this.options.callback);
+												},
+                                getTimes: function(m, callback) {
+                                    var NowTime = new Date();
+                                    var EndTime = new Date(m.options.EndTime); 
+                                    //console.log(m.t)
+                                    //var tiNowTime = NowTime.replace(/\-/g, "/");  
+           							//var tiEndTime = EndTime.replace(/\-/g, "/");  
+           							m.t = EndTime - NowTime;
+                                    m.d = Math.floor(m.t / 1000 / 60 / 60 / 24);
+                                    m.h = Math.floor(m.t / 1000 / 60 / 60 % 24);
+                                    m.m = Math.floor(m.t / 1000 / 60 % 60);
+                                    m.s = Math.floor(m.t / 1000 % 60);
+                                    $(m.arr[0]).text(m.d > 9 ? m.d + "天":  + m.d + "天") 
+                                    $(m.arr[1]).text(m.h > 9 ? m.h + "时":  + m.h + "时");
+                                    $(m.arr[2]).text(m.m > 9 ? m.m + "分":  + m.m + "分")
+                                    $(m.arr[3]).text(m.s > 9 ? m.s + "秒":  + m.s + "秒");
+
+                                    if (NowTime >= EndTime) {
+                                        clearInterval(m.time);
+                                        /*$(m.arr[0]).text("活");
+                                        $(m.arr[1]).text("动");
+                                        $(m.arr[2]).text("结")
+                                        $(m.arr[3]).text("束");*/
+                                       $(".countDown").html("活动已经结束")
+                                        if (typeof callback == "function") {
+                                            callback();
+                                        };
+                                    };
+                                },
+                                updateTime: function(m, callback) {
+                                    m.time = setInterval(function() {
+                                        m.getTimes(m, callback);
+                                    },
+                                    1000);
+                                },
+                            };
+                            return this.each(function() {
+                                new Count($(this), options)
+                            });
+                        }
+                        var daoCon='<div class="countDown">距离开奖：<span class="d"></span><span class="h"></span><span class="m"></span><span class="s"></span></div>';
+                        $("#daoTime").html(daoCon);
+                        var endTime=(data.d.prize_date).replace(/\-/g, "/");
+                        $(".countDown").countTime({
+                            EndTime: endTime,
+                            //设置结束时间；
+                            callback: function() { //当时间结束时候回调的函数   
+                            	console.log("结束时间回调");
+                            }
+                        })
+                                _t.takeLu(data);
+                                _t.default();
+                            }
+                        });
+                    },
+                    /*参与记录*/
+                    takeLu: function(data) {
+                        var _t = this;
+                        if (data.userList == undefined) {
+                            $("#can-wrapper").html("<p class='greyFont padLeftRight marTop10'>暂无参与记录</p>");
+                        } else {
+                            if (data.userList.lenght < 1) {
+                                $("#can-wrapper").html("<p class='greyFont padLeftRight marTop10'>暂无参与记录</p>");
+                            } else {
+                                var userArray = data.userList;
+                                var userCon = "";
+                                for (i = 0; i < userArray; i++) {
+                                    userCon += "<div class='webkBlo padBottom10 borBottom marTop10 padLeftRight'><p class='pingPer marRight9'><img src='" + userArray[i].imgurl + "' /></p><div class='webInp'>" + "<div class='greyFont size12 marBottom4'>" + userArray[i].nickname + "</div><p class='hasFleft'><span class='width50P'>参与<font class='redFont'>" + userArray[i].num + "</font>次</span>" + "<span class='width50P textRight'>" + userArray[i].create_time + "</span></p></div></div>";
+                                }
+                                $("#can-wrapper").html(userCon);
+                            }
+                        }
+                        /*图片加载*/
+                        _t.default();
+                    },
+                    /*加载目录*/
+                    directory: function() {
+                        var _t = this;
+                        //通过链接获取id
+                        var url = location.search;
+                        if (url.indexOf("?") != -1) {
+                            function GetQueryString(name) {
+                                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                                var r = window.location.search.substr(1).match(reg);
+                                if (r != null)
+                                    return unescape(r[2]);
+                                return null;
+                            }
+                            GetQueryString("id");
+                            var idNum = GetQueryString("id");
+                            var userId = GetQueryString("user_id");
+                            var relaId = idNum;
+                            var uId = userId;
+                            console.log("有参数");
+                            var parm = {
+                                "id": idNum,
+                                "user_id": userId
+                            };
+                        } else {
+                            var parm = {
+                                "id": 1,
+                                "user_id": 1
+                            };
+                            var relaId = 1;
+                            var uId = 1;
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/211',
+                            data: parm,
+                            dataType: 'json',
+                            success: function(data) {
+                                var muLuCon = "<div>";
+                                for (var i = 0; i < data.d[data.d.length - 1].chapter; i++) {
+                                    muLuCon += "<ul class='keCheng keChengMu'><span class='greyPoint'></span><li class='title'><a data-id='" + data.d.url + " data-courseId='" + data.d.chapter + "'>第" + (i + 1) + "章</a>";
+                                    $.each(data.d, function(key, value) {
+                                        if (value.chapter == i + 1) {
+                                            muLuCon += "<span class='time'>" + value.course_date + "&nbsp;" + value.start_time + "-" + value.end_time + "</span></li>" + "<li>" + value.title + "</li>";
+                                        }
+                                    })
+                                    muLuCon += "</ul>";
+                                }
+                                muLuCon += "</div>";
+                                $("#MuluId").html(muLuCon);
+                            },
+                            error: function(xhr, type) {
+                                console.info("服务器出错");
+                            }
+                        })
+                    },
+                    /*图片加载*/
+                    default: function() {
+                        var _t = this;
+                        $('img').error(function() {
+                            $(this).attr("src", "../images/default.png");
+                        });
+                    }
+                }
+                $(function() {
+                    g.init();
+                });
+            })($);
+        </script>
+    </body>
+</html>

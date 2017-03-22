@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>拼团详情</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    <link rel="stylesheet" href="../css/swiper-3.4.0.min.css">
+    
+    <body class="marginNone padBottom20 theBody">
+      <div class="swiper-container">
+        <div class="swiper-wrapper" id="bannerList">
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <!-- 如果需要滚动条 -->
+        <div class="swiper-scrollbar"></div>
+      </div>
+      <div class="mainContent actBlo">
+        <div class="padLeftRight">
+          <p class="actP borBottom hei45 blueFont">机构简介</p>
+     
+          <div id="jianJie">
+          	<!--机构简介-->
+          </div>
+          
+         
+          <a onclick="jump()"  class="blockA">
+            <div class="webkBlo jingList">
+              <p class="leftTou">师资（18）</p>
+              <div class="webInp posRelite">
+                <span class="txt blueFont">查看更多</span>
+                <img src="../images/right.png" class="rightLink"></div>
+            </div>
+          </a>
+          <div class="webkBlo shiZiList" id="shiZiImg">
+            <!--<img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />-->
+          </div>
+          <div class="xiangBlo">
+            <p class="title3">机构详情</p>
+            <p class="detail" id="jiGou">
+            	
+            </p>
+            <div class="tabCon">
+          <p class="title3">参观学校流程</p>
+          <div id="can-wraper">
+          	
+          </div>
+          <!--<ul class="keCheng">
+            <span class="greyPoint"></span>
+            <li class="title">什么是雅俗</li>
+            <li>
+              <a href="#">什么是雅俗</a></li>
+            <li>
+              <a href="#">什么是雅思</a></li>
+            <li>
+              <a href="#">不知道什么是雅思</a></li>
+          </ul>
+          <ul class="keCheng">
+            <span class="greyPoint"></span>
+            <li class="title">什么是雅俗</li>
+            <li>
+              <a href="#">什么是雅俗</a></li>
+            <li>
+              <a href="#">什么是雅思</a></li>
+            <li>
+              <a href="#">不知道什么是雅思</a></li>
+          </ul>-->
+        </div>
+        <a class="blockA" onclick="activity()">
+            <div class="webkBlo jingList borTop marBottom10 marTop10">
+              <p class="leftTou">活动说明</p>
+              <div class="webInp posRelite">
+                <img src="../images/right.png" class="rightLink"></div>
+            </div>
+          </a>
+           <p class="title3">承诺服务
+           </p>
+            <p class="detail" id="servive">
+            	<!--大巴接送 免费午餐  保你无忧 此处啦啦啦-->
+            </p>
+          </div>
+          
+        </div>
+       
+      </div>
+      <script src="../js/zepto.min.js"></script>
+      <script src="../js/swiper-3.4.0.jquery.min.js"></script>
+     
+      <script>!(function() {
+          var g = {
+            init: function() {
+              var _t = this;
+              /*拼团详情*/
+              _t.detailCon();
+              /*师资头像*/
+             _t.shiZi();
+            },
+            detailCon:function(){
+		            	//通过链接获取id
+		            	var _t=this;
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"id":value}
+									}
+									  }
+									else{
+										var parm = {"id": 1};
+									} 
+            	 
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://118.89.150.168:8080/msg/281',
+                    data: parm,
+                    dataType: 'json',
+                    success: function(data) {
+                    	var data=data.d;
+                    	var tuanDiv="<div class='webkBlo jingList'><p class='leftTou'>学校名称</p>"+
+    															"<div class='webInp'><span class='txt'>"+data.name+"</span></div></div>"+
+    															"<div class='webkBlo jingList'><p class='leftTou'>机构认证</p>"+
+    															"<div class='webInp'><span class='zhiZhaoSpan'><img src='../images/zhiHhao.png' />"+data.certification+"</span></div></div>"+
+    															"<div class='webkBlo jingList'><p class='leftTou'>机构地址</p>"+
+    															"<div class='webInp'><span class='txt'>"+data.address+"</span></div></div>"+
+    															"<div class='keList'><p class='breakWord'><span class='leftTou'>已开课程</span>";
+    									var courseList=(data.offer_course).split("，");
+    									for(i=0;i<courseList.length;i++){
+    										tuanDiv+=""+courseList[i]+"&nbsp;";
+    									}
+    									tuanDiv+="</p></div>";
+    									$("#jianJie").append(tuanDiv);
+    									/*机构详情*/
+    									$("#jiGou").html(data.desc);
+    									$("#servive").html(data.offer_service);
+    									/*banner 图片*/
+    									var banner=data.img_url.split("，");
+    									var bannerList="";
+    									for(var j=0;j<banner.length;j++){
+    										bannerList+="<div class='swiper-slide'><img src='"+banner[j]+"' /></div>"
+    									}
+  									$("#bannerList").html(bannerList);
+  									var mySwiper = new Swiper('.swiper-container', {
+									          direction: 'horizontal',
+									          loop: true,
+									          pagination: '.swiper-pagination',
+									          observer:true,
+									          observeParents:true,
+									          autoplay: 3000
+									        });
+    									/*参观学校流程*/
+    									$("#can-wraper").html("<p class='greyFont marTop10'>"+data.steps+"</p>");
+    									_t.default();
+                    }
+                   });
+            },
+            /*师资头像*/
+           shiZi:function(){
+           	
+           	//通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"league_id":value}
+									}
+									  }
+									else{
+										var parm = {"league_id": 1};
+									} 
+									
+           		var _t=this;
+	            $.ajax({
+	                type: 'POST',
+	                url: 'http://118.89.150.168:8080/msg/282',
+	                data: parm,
+	                dataType: 'json',
+	                success: function(data) {
+	                	var data=data.d;
+	                	var imgList="";
+	                	for(var i=0;i<data.length;i++){
+	                		imgList+="<img src='"+data[i].img_url+"' data-id='"+data[i].id+"' class='shiZiImg'/>";
+	                	}
+	                	$("#shiZiImg").append(imgList);
+	                	/*点击老师头像进入师资详情*/
+	                	$(".shiZiList .shiZiImg").each(function(index,element){
+	                		$(this).on('click',function(){
+	                			var dataId=$(this).attr("data-id");
+	                			var u = navigator.userAgent, app = navigator.appVersion;
+															var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+															var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+															
+															if(isAndroid==1){
+																//此处是安卓的留白
+																window.android.onMoreClick();
+																
+															}else if(isiOS==1){
+									        		window.webkit.messageHandlers.Share.postMessage({});
+															}
+															var idValue=parm;
+															window.location.href='http://118.89.150.168:8080/static/page/a/msg/271.html?id='+dataId;
+	                		});
+	                	});
+	                	_t.default();
+	                }
+	               });
+           },
+           /*图片加载*/
+					default:function(){
+						var _t=this;
+						$('img').error(function(){
+						    $(this).attr("src","../images/default.png");
+						});
+					}
+
+          }
+          $(function() {
+            g.init();
+          });
+        })($);</script>
+        <script>
+        
+        //通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 
+									}
+									  }
+									else{
+										var parm = 1;
+									} 
+									
+									
+        //更多老师详情
+        	function jump(){
+        		var u = navigator.userAgent, app = navigator.appVersion;
+						var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+						
+						if(isAndroid==1){
+							//此处是安卓的留白
+							window.android.onMoreClick();
+							
+						}else if(isiOS==1){
+        		window.webkit.messageHandlers.Share.postMessage({});
+						}
+						var idValue=parm;
+						window.location.href='http://118.89.150.168:8080/static/page/a/msg/282.html?id='+idValue;
+					
+        	}
+        	function activity(){
+        		var u = navigator.userAgent, app = navigator.appVersion;
+						var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+						
+						if(isAndroid==1){
+							//此处是安卓的留白
+							window.android.onMoreClick();
+							
+						}else if(isiOS==1){
+        		window.webkit.messageHandlers.Share.postMessage({});
+						}
+						var idValue=parm;
+						window.location.href='http://118.89.150.168:8080/static/page/a/msg/281h.html?id='+idValue;
+        	}
+        	
+        
+        	
+        </script>
+    </body>
+
+</html>

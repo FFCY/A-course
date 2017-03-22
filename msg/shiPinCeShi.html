@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Video.js | HTML5 Video Player</title>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../2.js/ckplayer.js"></script>
+    <!--<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="../css/video-js.css" rel="stylesheet">
+    <script src="../js/videojs-contrib-media-sources.js"></script>
+    <script src="../js/video.js"></script>
+    <script src="../js/videojs-contrib-hls.js"></script>-->
+
+</head>
+<body>
+	<video id="example-video" width=960 height=540 class="video-js vjs-default-skin" controls poster="http://i.onionstatic.com/onionstudios/3819/16x9/800.jpg" src="http://5854.liveplay.myqcloud.com/live/5854_2_null.m3u8">
+	    <source src="http://5854.liveplay.myqcloud.com/live/5854_2_null.m3u8" type="application/x-mpegURL">
+	</video>
+	<script type="text/javascript">
+	var player = videojs('example-video');
+	//player.play();
+	</script>
+<!--<div id="a1"></div>
+<script type="text/javascript" src="../2.js/ckplayer.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var flashvars={
+		f:'m3u8.swf',
+		a:'http://5854.liveplay.myqcloud.com/live/5854_2_null.flv',
+		s:4,
+		c:0
+};
+	var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+	var video=['http://5854.liveplay.myqcloud.com/live/5854_2_null.m3u8'];
+	CKobject.embed('/ckplayer/ckplayer.swf','a1','ckplayer_a1','100%','100%',false,flashvars,video,params);
+</script>-->
+</body>
+</html>

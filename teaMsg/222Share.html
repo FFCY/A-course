@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <title></title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-tap-highlight" content="no">
+     <link href="../css/index.css?+Math.random()" rel="stylesheet">
+</head>
+<body class="theBody" style="height: 100%;position: relative;">
+	<div class="fixTopShare">
+		<img src="../images/tea-shareTop.png" class="fixTop" />
+	</div>
+	<div id="video-container" style="margin: 0px auto;">
+	</div>
+	<div id="log"></div>
+	<div class="padLeftRight">
+		<p class="share-title" id="title">托福阅读佛角词汇：分分钟搞定托福高频词汇</p>
+		<p class="share-hasLogo">
+			<img src="../images/logo.png" />
+		</p>
+		<p class="share-underTit">A+课堂—全民的贴心学习管家！</p>
+		<p class="share-con">A+课堂APP，致力于打造全方位的一站式教育平台,给用户提供专业化、多样化、个性化的全面学习体验，拓宽学习和知识教授的途径,实现教师和学生的双向互动。匠心课程安排、个性化课程订制发布、贴心课表提醒，打造非一般的学习体验。</p>
+		<p class="downLink">点击下载应用</p>
+	</div>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/TcPlayer.js"></script>
+<script>
+    (function(){
+        function getParams(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return decodeURIComponent(r[2]);
+            }
+            return null;
+        }
+        var rtmp = getParams('rtmp'),
+            flv  = getParams('flv'),
+            m3u8 = getParams('m3u8'),
+            mp4  = getParams('mp4'),
+            live = (getParams('live') == 'true' ? true : false),
+            coverpic = getParams('coverpic'),
+            width = getParams('width'),
+            height = getParams('height'),
+            autoplay = (getParams('autoplay') == 'true' ? true : false);
+        /**
+         * 视频类型播放优先级
+         * mobile ：m3u8>mp4
+         * PC ：RTMP>flv>m3u8>mp4
+         */var url=location.search; 
+			if(url.indexOf("?")!=-1) 
+			{
+				function GetQueryString(name)
+				{
+				     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				     var r = window.location.search.substr(1).match(reg);
+				     if(r!=null)return  unescape(r[2]); return null;
+				}
+				GetQueryString("id");
+				var title=GetQueryString("title");
+				var video=GetQueryString("videoUrl");
+			}
+			var winHeight = window.innerHeight;window.height
+			$(".theBody").height(winHeight);
+			$("#title").html(title);
+			var winWidth=$(".theBody").width();
+        var options = {
+            rtmp: rtmp ,
+            flv: flv || video,
+            m3u8: m3u8 || video,
+            mp4 : mp4 ,
+            coverpic: coverpic || '../images/zhi-bg.png',
+            autoplay: autoplay ? true : false,
+            live: true,
+            width : width || winWidth,
+            height : height || '150',
+            wording: {
+                1002: '即将直播，请稍等',
+                2032: '请求视频失败，请检查网络',
+                2048: '请求m3u8文件失败，可能是网络错误或者跨域问题'
+            },
+            listener: function (msg) {
+                // console.log('listener',msg);
+                if(msg.type == 'error'){
+                    window.setTimeout(function(){
+                        player.load();//进行重连
+                    },5000);
+                }
+            }
+        };
+        var player = new TcPlayer('video-container', options);
+        window.qcplayer  = player;
+    })();
+</script>
+</body>
+</html>

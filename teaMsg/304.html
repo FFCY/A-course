@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>报名列表</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    
+    <body class="marginNone padBottom20 theBody">
+      <script src="../js/zepto.js"></script>
+      <script>
+    !(function(){
+    	var g={
+    		init:function(){
+    				var _t=this;
+    				_t.teaList();
+    		},
+    		/*老师列表*/
+    		teaList:function(){
+    			var _t=this;
+    			/*动态获取参数*/
+						/*var url=location.search; 
+						if(url.indexOf("?")!=-1) 
+						{
+							function GetQueryString(name)
+								{
+								     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+								     var r = window.location.search.substr(1).match(reg);
+								     if(r!=null)return  unescape(r[2]); return null;
+								}
+								GetQueryString("id");
+								var idNum=GetQueryString("id");
+								var muLuData={"id":idNum}
+						}
+						else{
+							
+						} */
+						var muLuData={"id":1,"type":1,"page":1,"page_size":15}
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/304',
+                            data: muLuData,
+                            dataType: 'json',
+                            success: function(data) {
+                            	console.log(data);
+                            	var data=data.d;
+                            	var teaCon="";
+                            	for(i=0;i<data.length;i++){
+                            		teaCon+="<div class='padLeftRight webkBlo borBottom'><div class='webkBlo moreTeaCon moreBaoCon'>"+
+									"<img src='"+data[i].avatar+"' class='moreTeaImg'/><div class='webInp'><span class='peoName'>"+data[i].nickname+"</span><span class='time'>"+data[i].create_time+"</span></div></div></div>";  	
+                        	}
+                            	console.log($("title"))
+                            	teaCon+="";
+															$("body").append(teaCon);
+															$('img').error(function(){
+																    $(this).attr("src","../images/default.png");
+																});
+															
+                            }
+                         });
+    		}
+    	}
+    	$(function(){
+    		g.init();
+    	});
+    })($);
+      </script>
+    </body>
+
+</html>

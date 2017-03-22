@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>拼团详情</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    
+    <body class="marginNone padBottom20 theBody">
+    	<!--<div class="padLeftRight webkBlo borBottom">
+    		<div class="webkBlo moreTeaCon">
+    			<img src="../images/jigGou.png" class="moreTeaImg"/>
+    			<div class="webInp">
+    				<ul class="teaRight">
+    					<li class="oneLi">姜老师<span class="tedIdent">英文老师</span></li>
+    					<li class="twoLI">毕业学校：师范大学</li>
+    					<li class="threeLi"><span class="greyborSpan">雅思</span></li>
+    				</ul>
+    			</div>
+    		</div>
+        </div>
+        <div class="padLeftRight webkBlo borBottom">
+    		<div class="webkBlo moreTeaCon">
+    			<img src="../images/jigGou.png" class="moreTeaImg"/>
+    			<div class="webInp">
+    				<ul class="teaRight">
+    					<li class="oneLi">姜老师<span class="tedIdent">英文老师</span></li>
+    					<li class="twoLI">毕业学校：师范大学</li>
+    					<li class="threeLi"><span class="greyborSpan">雅思</span></li>
+    				</ul>
+    			</div>
+    		</div>
+        </div>
+        <div class="padLeftRight webkBlo borBottom">
+    		<div class="webkBlo moreTeaCon">
+    			<img src="../images/jigGou.png" class="moreTeaImg"/>
+    			<div class="webInp">
+    				<ul class="teaRight">
+    					<li class="oneLi">姜老师<span class="tedIdent">英文老师</span></li>
+    					<li class="twoLI">毕业学校：师范大学</li>
+    					<li class="threeLi"><span class="greyborSpan">雅思</span></li>
+    				</ul>
+    			</div>
+    		</div>
+        </div>-->
+      <script src="../js/zepto.js"></script>
+      <script>
+    !(function(){
+    	var g={
+    		init:function(){
+    				var _t=this;
+    				_t.teaList();
+    		},
+    		/*老师列表*/
+    		teaList:function(){
+    			var _t=this;
+    			var muLuData = {
+                            "league_id": 1
+                        };
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8080/msg/282',
+                            data: muLuData,
+                            dataType: 'json',
+                            success: function(data) {
+                            	console.log(data);
+                            	var data=data.d;
+                            	var teaCon="";
+                            	for(i=0;i<data.length;i++){
+                            		teaCon+="<div class='padLeftRight webkBlo borBottom'><div class='webkBlo moreTeaCon'>"+
+    																		"<img src='"+data[i].img_url+"' class='moreTeaImg'/><div class='webInp'><ul class='teaRight' id='yaSiUl'>"+
+    																		"<li class='oneLi'>"+data[i].nickname+"<span class='tedIdent'>"+data[i].position+"</span></li><li class='twoLI'>毕业学校："+data[i].university+"</li><li class='threeLi'>";
+//  																		
+    																		var spanCon=data[i].specialty;
+    																		var htmlCon="";
+    																		for(j=0;j<spanCon.length;j++){
+    																			htmlCon+="<span class='greyborSpan marRight2'>雅思</span>";
+    																		}
+    																		teaCon+=htmlCon;
+                            	}
+                            	teaCon+="</li></ul></div></div></div>";
+															$("body").append(teaCon);
+															$('img').error(function(){
+																    $(this).attr("src","../images/default.png");
+																});
+                            }
+                         });
+    		}
+    	}
+    	$(function(){
+    		g.init();
+    	});
+    })($);
+      </script>
+    </body>
+
+</html>

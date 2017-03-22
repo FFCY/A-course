@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>机构详情</title>
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    <link rel="stylesheet" href="../css/swiper-3.4.0.min.css">
+    
+    <body class="marginNone padBottom20 theBody">
+     <div class="teaHeader schoolDat">
+       	<img src="../images/laobg.png" class="laoBg"/>
+       	<div class="teaTou">
+       		<img src="../images/jigGou.png" class="teaIcon"/>
+       		<span class="teaName" id="teaName"></span>
+       	</div>
+       	
+       </div>
+      <div class="mainContent actBlo">
+        <div class="padLeftRight">
+          <p class="actP borBottom hei45 blueFont">机构简介</p>
+     
+          <div id="jianJie">
+          	<!--机构简介-->
+          </div>
+          
+          <div class="keList">
+            <p class="breakWord">
+              <span class="leftTou">已开课程</span>托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思托福 雅思</p></div>
+          <a onclick="jump()"  class="blockA">
+            <div class="webkBlo jingList">
+              <p class="leftTou">师资（18）</p>
+              <div class="webInp posRelite">
+                <span class="txt blueFont">查看更多</span>
+                <img src="../images/right.png" class="rightLink"></div>
+            </div>
+          </a>
+          <div class="webkBlo shiZiList" id="shiZiImg">
+            <!--<img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />
+            <img src="../images/teacher.png" class="shiZiImg" />-->
+          </div>
+          <div class="xiangBlo">
+            <p class="title3">机构详情</p>
+            <p class="detail borderNone" id="jiGou">
+            	
+            </p>
+          
+      
+          </div>
+          
+        </div>
+       
+      </div>
+      <script src="../js/zepto.min.js"></script>
+     
+      <script>//轮播图
+        </script>
+      <script>!(function() {
+          var g = {
+            init: function() {
+              var _t = this;
+              /*拼团详情*/
+              _t.detailCon();
+              /*师资头像*/
+             _t.shiZi();
+             /*学校详情*/
+            _t.teaDetail();
+            },
+            detailCon:function(){
+            	var _t=this;
+		            	//通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"id":value}
+									}
+									  }
+									else{
+										var parm = {"id": 1};
+									} 
+            	 
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://118.89.150.168:8080/msg/281',
+                    data: parm,
+                    dataType: 'json',
+                    success: function(data) {
+                    	var data=data.d;
+                    	var tuanDiv="<div class='webkBlo jingList'><p class='leftTou'>学校名称</p>"+
+    															"<div class='webInp'><span class='txt'>"+data.name+"</span></div></div>"+
+    															"<div class='webkBlo jingList'><p class='leftTou'>机构认证</p>"+
+    															"<div class='webInp'><span class='zhiZhaoSpan'><img src='../images/zhiHhao.png' />"+data.certification+"</span></div></div>"+
+    															"<div class='webkBlo jingList'><p class='leftTou'>机构地址</p>"+
+    															"<div class='webInp'><span class='txt'>"+data.address+"</span></div></div>"+
+    															"<div class='keList'><p class='breakWord'><span class='leftTou'>已开课程</span>"+data.offer_course+"</p></div>";
+    									$("#jianJie").append(tuanDiv);
+    									/*机构详情*/
+    									$("#jiGou").html(data.desc);
+    									_t.default();
+                    }
+                           });
+            },
+            /*师资头像*/
+           shiZi:function(){
+           	//通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 var parm={"id":value}
+									}
+									  }
+									else{
+										var parm = {"id": 1};
+									} 
+									
+           		var _t=this;
+			            $.ajax({
+			                type: 'POST',
+			                url: 'http://118.89.150.168:8080/msg/280',
+			                data: parm,
+			                dataType: 'json',
+			                success: function(data) {
+			                	var data=data.d;
+			                	var imgList="";
+			                	for(var i=0;i<data.length;i++){
+			                		imgList+="<img src='"+data[i].logo_url+"' class='shiZiImg'/>";
+			                	}
+			                	$("#shiZiImg").append(imgList);
+			                	_t.default();
+			                }
+			               });
+           		
+         },
+           /*老师详情*/
+         teaDetail:function(){
+         	var _t=this;
+    	 		//通过链接获取id
+            	var url=location.search; 
+							if(url.indexOf("?")!=-1) 
+							{
+								var name, value;
+							  var str = location.href; //获取到整个地址
+							  var num = str.indexOf("?")
+							  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+							  var arr = str.split("&"); //以&分割各个参数放到数组里
+							  for (var i = 0; i < arr.length; i++) {
+							  num = arr[i].indexOf("=");
+							 if (num > 0) {
+							name = arr[i].substring(0, num);
+							value = arr[i].substr(num + 1);
+							 this[name] = value;
+							 }
+							 var parm={"id":value}
+							}
+							  }
+							else{
+								var parm = {"id": 1};
+							} 
+							
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://118.89.150.168:8080/msg/271',
+                    data: parm,
+                    dataType: 'json',
+                    success: function(data) {
+                    	var data=data.d;
+                    	$("#teaName").html(data.realname);
+                    	$("#jiaoLing").html(data.teach_age);
+                    	$("#position").html(data.position);
+                    	$("#schole").html(data.university);
+                    	$("#adress").html(data.address);
+                    	_t.default();
+                    }
+                 });
+        },
+        /*图片加载*/
+					default:function(){
+						var _t=this;
+						$('img').error(function(){
+						    $(this).attr("src","../images/default.png");
+						});
+					}
+          }
+          $(function() {
+            g.init();
+          });
+        })($);</script>
+        <script>
+        
+        //通过链接获取id
+		            	var url=location.search; 
+									if(url.indexOf("?")!=-1) 
+									{
+										var name, value;
+									  var str = location.href; //获取到整个地址
+									  var num = str.indexOf("?")
+									  str = str.substr(num + 1); //取得num+1后所有参数，这里的num+1是下标 str.substr(start [, length ]
+									  var arr = str.split("&"); //以&分割各个参数放到数组里
+									  for (var i = 0; i < arr.length; i++) {
+									  num = arr[i].indexOf("=");
+									 if (num > 0) {
+									name = arr[i].substring(0, num);
+									value = arr[i].substr(num + 1);
+									 this[name] = value;
+									 }
+									 
+									}
+									  }
+									else{
+										var parm = 1;
+									} 
+									
+									
+        //更多老师详情
+        	function jump(){
+        		var u = navigator.userAgent, app = navigator.appVersion;
+						var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+						
+						if(isAndroid==1){
+							//此处是安卓的留白
+						}else if(isiOS==1){
+							var idValue=value;
+						window.location.href='http://118.89.150.168:8080/static/page/a/msg/282.html?id='+idValue;
+        		window.webkit.messageHandlers.Share.postMessage({});
+						
+						}
+					
+        	}
+        	
+        	function activity(){
+        		var u = navigator.userAgent, app = navigator.appVersion;
+						var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+						var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+						
+						if(isAndroid==1){
+							//此处是安卓的留白
+						}else if(isiOS==1){
+							
+						var idValue=parm;
+						window.location.href="http://118.89.150.168:8080/static/page/a/msg/281h.html"+"?id="+idValue;
+        		window.webkit.messageHandlers.Share.postMessage({});
+						
+						}
+					
+        	}
+        	
+        </script>
+    </body>
+
+</html>

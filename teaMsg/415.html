@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="wap-font-scale" content="no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>租教室</title>
+    <link rel="stylesheet" href="../css/swiper-3.4.0.min.css">
+    <link href="../css/scrollbar.css" rel="stylesheet">
+    <link href="../css/index.css?+Math.random()" rel="stylesheet">
+    
+    <body class="marginNone padBottom20 theBody">
+      <div class="swiper-container">
+        <div class="swiper-wrapper" id="banner">
+	  
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <!-- 如果需要滚动条 -->
+        <div class="swiper-scrollbar"></div>
+      </div>
+      <div class="mainContent actBlo">
+        <div class="mainContent marginBody leftRight">
+				<!--视频下方-->
+				<p class="titleKe color333 marBottom7 marTop10" id="classRoom"></p>
+				<p class="greyFont size12" id="enterNum">190人租过&nbsp;|&nbsp;9.0分</p>
+				<p class="redFont price" id="price">￥50/小时</p>
+				<ul class="tabUl padLeftRight borBottom borTop">
+            <li class="active width50Im">
+                <span>
+                    详情
+                </span>
+            </li>
+            <li class="width50Im">
+                <span>
+                    	评价
+                </span>
+            </li>
+        </ul>
+        <div class="tabBlock">
+            <div class="tabContent">
+                <div class="tabCon ">
+                    <div class="padLeftRight padBottom20">
+                    <p class="title color2C size14 marBottom10 padTop20">教室简介</p>
+										  <div class="webkBlo marBottom10">
+										    <p class="jiaoFa marRight9" id="roomImg">
+										      <img src=""/></p>
+										    <div class="webInp">
+										      <div class="color333 size12 marBottom7 overHide" id="nickName">
+										      </div>
+										      <p class="color999" id="roomName"></p></div>
+										  </div>
+										  <div class="shiDet">
+										  	<p class="size12 color999 hasBig" id="jiaoType">教室类型：<span></span></p>
+                    	<p class="size12 color999 hasBig" id="saveNum">可容纳人数：<span></span></p>
+                    	<p class="size12 color999 hasBig" id="mianJi">教室面积：<span></span></p>
+                    	<p class="size12 color999 hasBig" id="sheBei">教室设备：<span></span></span></p>
+                      <p class="size12 color999 hasBig" id="address">教室地址：<span></span></p>
+                      <p class="size12 color999 hasBig" >退订政策：<span>开课日期前退订教师，全额退款，开课当天退订教师，扣除50%金额。</span></p>
+                      <p class="size12 color999 hasBig" id="shuoMing">详情说明：<span></p>
+										  </div>
+                    	
+                    </div>
+                </div>
+                <div class="tabCon disNone padLeftRight">
+                    	<p class="title color2C size13 padTop20 marBottom10">
+           					<span class="greyFont size12">综合评分</span><span id="score"></span>
+                    	</p>
+                    	<div class="lunRelative">
+										<div id="wrapper">
+										<div id="scroller" >
+											<div id="pullDown" style="overflow: hidden;">
+												<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+											</div>
+											<div id="pingLun"></div>
+											<div id="pullUp" class="pullUp" style="overflow: hidden;">
+												<span class="pullUpIcon"></span><span class="pullUpLabel"></span>
+											</div>
+										</div>
+										</div>
+									</div>
+                </div>
+            </div>
+        </div>
+			</div>
+      </div>
+      <script src="../js/zepto.min.js"></script>
+      <script src="../js/swiper-3.4.0.jquery.min.js"></script>
+      <script src="../js/iscroll.js"></script>
+			<script src="../js/iscroll4.2.5.js"></script>
+			<script src="../js/startScore.js"></script>
+     <script>
+      !(function($) {
+      	var g = {
+                init: function() {
+                    var _t = this;
+                    //调用tab
+                    _t.tab();
+                    /*详情*/
+                   _t.keDetail();
+                   /*评价*/
+                  _t.evaluation();
+                     },
+                     tab:function(){
+                     	var _t=this;
+                        $(".tabUl li").each(function(index, element) {
+                            var i = index;
+                            $(this).css("width","50%");
+                            $(this).on('click',
+                            function() {
+                                $(".tabUl li").removeClass("active");
+                                $(this).addClass("active");
+                                $(".tabContent .tabCon").hide();
+                                $(".tabContent .tabCon").eq(i).show();
+
+                            });
+                        });
+                     },
+                     /*租教室详情*/
+                    keDetail: function() {
+                        var _t = this;
+                        //通过链接获取id
+                        var url=location.search; 
+													if(url.indexOf("?")!=-1) 
+													{
+														function GetQueryString(name)
+														{
+														     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+														     var r = window.location.search.substr(1).match(reg);
+														     if(r!=null)return  unescape(r[2]); return null;
+														}
+														GetQueryString("id");
+														var idNum=GetQueryString("id");
+														var userId=GetQueryString("user_id");
+														var relaId=idNum;
+														var uId=userId;
+														var parm={"id":idNum,"user_id":userId};
+														}
+														else{
+															var parm={"id":1,"user_id":1};
+															var relaId=1;
+															var uId=1;
+														}
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://118.89.150.168:8087/msg/425',
+                            data: parm,
+                            dataType: 'json',
+                            success: function(data) {
+                            	var data=data.d;
+                            	var roomType=data.type;
+                            	if(roomType==1){
+                            		$("#jiaoType span").html("多媒体教室");
+                            	}else if(roomType==2){
+                            		$("#jiaoType span").html("舞蹈教室");
+                            	}else if(roomType==3){
+                            		$("#jiaoType span").html("一对一");
+                            	}else if(roomType==4){
+                            		$("#jiaoType span").html("美术教师");
+                            	}else if(roomType==5){
+                            		$("#jiaoType span").html("音乐教室");
+                            	}else if(roomType==6){
+                            		$("#jiaoType span").html("工作室");
+                            	}else if(roomType==7){
+                            		$("#jiaoType span").html("活动会议室");
+                            	}else if(roomType==8){
+                            		$("#jiaoType span").html("书法教室");
+                            	}else{
+                            		$("#jiaoType span").html("法教");
+                            	}
+                            	
+                            	var sheMarry=new Array();
+                            	sheMarry=["WIFI","话筒","多媒体","电脑","投影仪","影子"]
+                            	var sheBei=data.device;
+                            	var sheStr=sheBei.split(",");
+                            	var sheCon="";
+                            	for(i=1;i<sheStr.length+1;i++){
+                            		sheCon+=""+sheMarry[i]+" ";
+                            	}
+                            	$("#saveNum span").html(data.people_num+"人");
+                            	$("#mianJi span").html(data.people_num+"m²");
+                            	$("#sheBei span").html(sheCon);
+                            	$("#address span").html(data.address);
+                            	$("#classRoom").html(data.title);
+                            	$("#shuoMing span").html(data.detail);
+                            	$("#roomImg img").attr("src",data.teacher_imgurl);
+                            	$("#price").html(data.fee+"/小时");
+                            	$("#enterNum").html(data.enter_num+"人租过  |  "+data.star+"分");
+                            	$("#roomName").html(data.detail);
+                            	$("#nickName").html(data.nickname);
+                            	var imgStr=(data.album_url).split(",");
+                            	var banner="";
+                            	for(j=0;j<imgStr.length;j++){
+                            		banner+="<div class='swiper-slide'><img src='"+imgStr[j]+"' /></div>";
+                            	}
+                            	$("#banner").html(banner)
+                            	var mySwiper = new Swiper('.swiper-container', {
+											          direction: 'horizontal',
+											          loop: true,
+											          pagination: '.swiper-pagination',
+											          observer:true,
+											          observeParents:true,
+											          autoplay: 3000
+											       });
+											       $('img').error(function(){
+																    $(this).attr("src","../images/default.png");
+																});
+                            }
+                         });
+                                
+                    },
+                    /*加载评价*/
+										evaluation:function(){
+											var _t=this;
+											  //通过链接获取id
+								        var url=location.search; 
+													if(url.indexOf("?")!=-1) 
+													{
+														function GetQueryString(name)
+														{
+														     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+														     var r = window.location.search.substr(1).match(reg);
+														     if(r!=null)return  unescape(r[2]); return null;
+														}
+														GetQueryString("id");
+														var idNum=GetQueryString("id");
+														var userId=GetQueryString("user_id");
+														var relaId=idNum;
+														var uId=userId;
+														var parm={"id":idNum,"user_id":userId,"page":1,"page_size":15};
+														}
+														else{
+															var parm={"id":1,"user_id":1,"page":1,"page_size":15};
+															var relaId=1;
+															var uId=1;
+														}
+											$.ajax({
+								              type: 'POST',
+								              url: 'http://118.89.150.168:8087/msg/428',
+								              data:parm,
+								              dataType: 'json',
+								              success: function(data) {
+								              	var data=data.d;
+								              	var pingCon="";
+								              	if(data.list.length<1){
+								              		$("#pingLun").append("<p class='greyFont'>暂无评价记录</p>");
+								              	}else{
+								              		for(i=0;i<data.list.length;i++){
+								              		pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+																					"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div>";
+												    			pingCon+="</div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+								              		}  
+												    $("#pingLun").append(pingCon);
+								              	}
+												    //综合评分
+												    $("#score").html(data.complex)
+												    $(".starCore p").each(function(index, element) {
+												        var num=$(this).attr("tip");
+												        var www=num*2*16;//
+												        $(this).css("width",www);
+												        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+												    });
+								              },
+								              error: function(xhr, type) {
+								                console.info("服务器出错");
+								              }
+								              
+								            });
+										}
+                    }
+               $(function() {
+                    g.init();
+                });
+      })($);
+      </script>
+      <script type="text/javascript">
+			
+						var myScroll,
+							pullDownEl, pullDownOffset,
+							pullUpEl, pullUpOffset,
+							generatedCount = 0;
+						var page=1;
+						 function AjaxLoad() {
+						 	//通过链接获取id
+					     var url=location.search; 
+										if(url.indexOf("?")!=-1) 
+										{
+											function GetQueryString(name)
+											{
+											     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+											     var r = window.location.search.substr(1).match(reg);
+											     if(r!=null)return  unescape(r[2]); return null;
+											}
+											GetQueryString("id");
+											var idNum=GetQueryString("id");
+											var userId=GetQueryString("user_id");
+											var relaId=idNum;
+											var uId=userId;
+											var parm={"id":idNum,"user_id":userId,"page":page++,"page_size":15};
+											}
+											else{
+												var parm={"id":1,"user_id":1,"page":page++,"page_size":15};
+												var relaId=1;
+												var uId=1;
+											}
+								$.ajax({
+					              type: 'POST',
+					              url: 'http://118.89.150.168:8087/msg/428',
+					              data:parm,
+					              dataType: 'json',
+					              success: function(data) {
+					              	var data=data.d;
+					              	var pingCon="";
+					              	for(i=0;i<data.list.length;i++){
+					              		pingCon+="<div class='webkBlo marBottom10'><p class='pingPer marRight9'><img src='"+data.list[i].avatar+"' /></p>"+
+										"<div class='webInp'><div class='greyFont size12 marBottom7 overHide'>"+data.list[i].nickname+"<div class='starCore'><div class='atar_Show'><p tip='"+data.list[i].star+"'></p></div>";
+									    pingCon+="</div></div><p class='pingCon'>"+data.list[i].content+"</p></div></div>";
+					              	}  
+									    $("#pingLun").append(pingCon);
+									    //综合评分
+									    $("#score").html(data.complex)
+									    $(".starCore p").each(function(index, element) {
+									        var num=$(this).attr("tip");
+									        var www=num*2*16;//
+									        $(this).css("width",www);
+									        //$(this).parent(".atar_Show").siblings("span").text(num+"分");
+									    });
+									    
+					              },
+					              error: function(xhr, type) {
+					                console.info("服务器出错");
+					              }
+					          });
+					          
+								myScroll.refresh();		
+						}
+						function pullDownAction () {
+							setTimeout(function () {
+								AjaxLoad();
+								 setTimeout(function(){
+								 	myScroll.refresh();	
+								 }, 1000);
+							}, 1000);
+						}
+						
+						function pullUpAction () {
+						setTimeout(function () {
+							 AjaxLoad();
+							setTimeout(function(){
+								 	myScroll.refresh();	
+								 }, 1000);	
+						}, 1000);	
+					}
+						/**
+						 * 初始化iScroll控件
+						 */
+						function loaded() {
+				pullDownEl = document.getElementById('pullDown');
+				pullDownOffset = pullDownEl.offsetHeight;
+				pullUpEl = document.getElementById('pullUp');	
+				pullUpOffset = pullUpEl.offsetHeight;
+				
+				myScroll = new iScroll('wrapper', {
+					scrollbarClass: 'myScrollbar', /* 重要样式 */
+					useTransition: false, /* 此属性不知用意，本人从true改为false */
+					topOffset: pullDownOffset,
+					onRefresh: function () {
+						if (pullDownEl.className.match('loading')) {
+							pullDownEl.className = '';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+						} else if (pullUpEl.className.match('loading')) {
+							pullUpEl.className = '';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+						}
+					},
+					onScrollMove: function () {
+						if (this.y > 5 && !pullDownEl.className.match('flip')) {
+							pullDownEl.className = 'flip';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+							this.minScrollY = 0;
+						} else if (this.y < 5 && pullDownEl.className.match('flip')) {
+							pullDownEl.className = '';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+							this.minScrollY = -pullDownOffset;
+						} else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+							pullUpEl.className = 'flip';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+							this.maxScrollY = this.maxScrollY;
+						} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+							pullUpEl.className = '';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+							this.maxScrollY = pullUpOffset;
+						}
+					},
+					onScrollEnd: function () {
+						if (pullDownEl.className.match('flip')) {
+							pullDownEl.className = 'loading';
+							pullDownEl.querySelector('.pullDownLabel').innerHTML = '加载中...';				
+							pullDownAction();	// Execute custom function (ajax call?)
+						} else if (pullUpEl.className.match('flip')) {
+							pullUpEl.className = 'loading';
+							pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+							pullUpAction();	// Execute custom function (ajax call?)
+						}
+					}
+				});
+				
+				setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+			}
+				//初始化绑定iScroll控件 
+				//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+				document.addEventListener('DOMContentLoaded', loaded, false); 
+			</script>
+    </body>
+
+</html>
